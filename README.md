@@ -18,6 +18,14 @@ py -3.12 -m ascii_neural_net.xor_demo
 
 This trains a `2 → 4 → 1` network from scratch on XOR and prints each learned prediction.
 
+## Run the Phase 3 visualization
+
+```powershell
+py -3.12 -m ascii_neural_net.visual_demo 0 1
+```
+
+The renderer displays live activations for each input, hidden, and output node. Green edges have positive weights; red edges have negative weights; thicker edges have larger magnitudes.
+
 ## Test
 
 ```powershell
