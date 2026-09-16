@@ -109,7 +109,11 @@ def _clear_and_draw(menu: Menu, status: str = "") -> None:
 
 
 def render_action_screen(action: str, color: bool) -> str:
-    """Return the completed Phase 2 or Phase 3 screen selected from the menu."""
+    """Return the completed Phase 2–4 screen selected from the menu."""
+    if action == "create":
+        from ascii_neural_net.builder import NetworkBuilder, render_builder
+
+        return render_builder(NetworkBuilder(), color=color)
     if action == "train":
         from ascii_neural_net.xor_demo import train_xor
 
@@ -143,6 +147,12 @@ def run() -> int:
             action = menu.handle_key(_read_key())
             if action == "quit":
                 return 0
+            if action == "create":
+                from ascii_neural_net.builder import run_builder
+
+                run_builder()
+                status = "Choose an option to begin."
+                continue
             if action in {"train", "visualize"}:
                 _show_action_screen(action)
                 status = "Choose an option to begin."

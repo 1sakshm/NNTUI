@@ -26,6 +26,10 @@ py -3.12 -m ascii_neural_net.visual_demo 0 1
 
 The renderer displays live activations for each input, hidden, and output node. Green edges have positive weights; red edges have negative weights; thicker edges have larger magnitudes.
 
+## Phase 4: network builder
+
+Choose `Create Network` from the main menu to open the builder. Use the arrow keys to select a layer and change its neuron count, add or delete hidden layers, cycle activations, choose the learning rate and initializer, randomize weights, then press `T` to train an XOR-compatible network.
+
 ## Test
 
 ```powershell

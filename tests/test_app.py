@@ -60,6 +60,12 @@ class TerminalOutputTests(unittest.TestCase):
 
 
 class PhaseIntegrationTests(unittest.TestCase):
+    def test_create_menu_action_renders_the_network_builder(self):
+        screen = render_action_screen("create", color=False)
+
+        self.assertIn("NETWORK BUILDER", screen)
+        self.assertIn("[T] Train XOR", screen)
+
     def test_train_menu_action_runs_the_xor_training_workflow(self):
         screen = render_action_screen("train", color=False)
 

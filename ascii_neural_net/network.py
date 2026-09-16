@@ -64,6 +64,7 @@ class DenseLayer:
     output_size: int
     activation: str
     rng: random.Random
+    initialization: str = "xavier"
     weights: Matrix = field(init=False)
     biases: Vector = field(init=False)
     inputs: Vector = field(default_factory=list, init=False)
@@ -73,7 +74,12 @@ class DenseLayer:
     def __post_init__(self) -> None:
         if self.activation not in {*ACTIVATIONS, "softmax"}:
             raise ValueError(f"Unsupported activation: {self.activation}")
-        limit = math.sqrt(6.0 / (self.input_size + self.output_size))
+        if self.initialization == "xavier":
+            limit = math.sqrt(6.0 / (self.input_size + self.output_size))
+        elif self.initialization == "he":
+            limit = math.sqrt(6.0 / self.input_size)
+        else:
+            raise ValueError(f"Unsupported initialization: {self.initialization}")
         self.weights = [
             [self.rng.uniform(-limit, limit) for _ in range(self.input_size)]
             for _ in range(self.output_size)
@@ -109,7 +115,14 @@ class DenseLayer:
 class NeuralNetwork:
     """A fully connected feed-forward network trained with backpropagation."""
 
-    def __init__(self, layer_sizes: Sequence[int], activations: Sequence[str], *, seed: int | None = None) -> None:
+    def __init__(
+        self,
+        layer_sizes: Sequence[int],
+        activations: Sequence[str],
+        *,
+        seed: int | None = None,
+        initialization: str = "xavier",
+    ) -> None:
         if len(layer_sizes) < 2:
             raise ValueError("A network needs input and output layers")
         if len(activations) != len(layer_sizes) - 1:
@@ -118,7 +131,7 @@ class NeuralNetwork:
             raise ValueError("Layer sizes must be positive")
         self.rng = random.Random(seed)
         self.layers = [
-            DenseLayer(input_size, output_size, activation, self.rng)
+            DenseLayer(input_size, output_size, activation, self.rng, initialization)
             for input_size, output_size, activation in zip(layer_sizes, layer_sizes[1:], activations)
         ]
 
