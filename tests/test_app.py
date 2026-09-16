@@ -1,6 +1,9 @@
+import importlib.util
+import sys
 import unittest
+from pathlib import Path
 
-from ascii_neural_net.app import Menu, configure_terminal_output, render_main_menu
+from ascii_neural_net.app import Menu, configure_terminal_output, render_action_screen, render_main_menu
 
 
 class MenuTests(unittest.TestCase):
@@ -54,6 +57,31 @@ class TerminalOutputTests(unittest.TestCase):
         configure_terminal_output(stream)
 
         self.assertEqual(stream.reconfigured_to, "utf-8")
+
+
+class PhaseIntegrationTests(unittest.TestCase):
+    def test_train_menu_action_runs_the_xor_training_workflow(self):
+        screen = render_action_screen("train", color=False)
+
+        self.assertIn("XOR TRAINING COMPLETE", screen)
+        self.assertIn("0 1", screen)
+        self.assertIn("1", screen)
+
+    def test_visualize_menu_action_renders_live_network_activations(self):
+        screen = render_action_screen("visualize", color=False)
+
+        self.assertIn("LIVE ACTIVATIONS", screen)
+        self.assertIn("CONNECTIONS", screen)
+        self.assertIn("OUTPUT: 1.000", screen)
+
+    def test_direct_app_launch_can_open_the_visualization_menu(self):
+        path = Path("ascii_neural_net/app.py").resolve()
+        spec = importlib.util.spec_from_file_location("standalone_app", path)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = module
+        spec.loader.exec_module(module)
+
+        self.assertIn("LIVE ACTIVATIONS", module.render_action_screen("visualize", color=False))
 
 
 if __name__ == "__main__":

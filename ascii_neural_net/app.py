@@ -6,6 +6,12 @@ import sys
 from dataclasses import dataclass
 
 
+if __package__ in {None, ""}:
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
+
+
 MENU_ITEMS = (
     ("Create Network", "create"),
     ("Train Network", "train"),
@@ -102,6 +108,31 @@ def _clear_and_draw(menu: Menu, status: str = "") -> None:
     sys.stdout.flush()
 
 
+def render_action_screen(action: str, color: bool) -> str:
+    """Return the completed Phase 2 or Phase 3 screen selected from the menu."""
+    if action == "train":
+        from ascii_neural_net.xor_demo import train_xor
+
+        lines = ["XOR TRAINING COMPLETE", "", "Input  Expected  Predicted  Confidence", "--------------------------------------"]
+        for left, right, prediction, confidence in train_xor():
+            expected = int(left != right)
+            lines.append(f"{int(left)} {int(right)}       {expected}          {prediction}        {confidence:.3f}")
+        return "\n".join(lines)
+    if action == "visualize":
+        from ascii_neural_net.visual_demo import visualize_xor_input
+
+        return visualize_xor_input([0.0, 1.0], color=color)
+    raise ValueError(f"No completed screen exists for action: {action}")
+
+
+def _show_action_screen(action: str) -> None:
+    color = sys.stdout.isatty() and os.environ.get("NO_COLOR") is None
+    sys.stdout.write("\033[2J\033[H" + render_action_screen(action, color))
+    sys.stdout.write("\n\nPress any key to return to the menu.")
+    sys.stdout.flush()
+    _read_key()
+
+
 def run() -> int:
     configure_terminal_output(sys.stdout)
     menu = Menu()
@@ -112,6 +143,10 @@ def run() -> int:
             action = menu.handle_key(_read_key())
             if action == "quit":
                 return 0
+            if action in {"train", "visualize"}:
+                _show_action_screen(action)
+                status = "Choose an option to begin."
+                continue
             if action:
                 label = next(label for label, name in MENU_ITEMS if name == action)
                 status = f"{label} arrives in a later phase."
