@@ -50,6 +50,14 @@ Download MNIST and train a `784 → 32 → 10` network from scratch:
 py -3.12 -m ascii_neural_net.mnist_demo --download --limit 500 --epochs 3
 ```
 
+## Phase 8: draw and predict
+
+```powershell
+py -3.12 -m ascii_neural_net.draw_demo --data data/mnist
+```
+
+Use arrows to draw, `P` to predict, `C` to clear, and `S` to save `digit.txt`.
+
 ## Test
 
 ```powershell
