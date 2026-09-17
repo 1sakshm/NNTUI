@@ -17,6 +17,7 @@ MENU_ITEMS = (
     ("Train Network", "train"),
     ("Visualize Network", "visualize"),
     ("Load Dataset", "load"),
+    ("Help & Settings", "help"),
 )
 
 
@@ -64,6 +65,10 @@ def render_main_menu(width: int, height: int, selected_index: int, color: bool) 
     lines.extend("║" + line[:inner_width].ljust(inner_width) + "║" for line in body)
     lines.append("╚" + "═" * inner_width + "╝")
     return "\n".join(lines)
+
+
+def render_help_screen() -> str:
+    return "\n".join(["HELP & SETTINGS", "", "[1] Create Network — build a layer-based network", "[2] Train Network — watch live XOR training", "[3] Visualize Network — inspect activations and weights", "[4] Load Dataset — browse built-ins and CSV tools", "", "Use arrow keys or number keys to navigate. Q exits.", "Settings are stored in .ascii_nn_settings.json.", "", "Press any key to return."])
 
 
 @dataclass
@@ -151,6 +156,8 @@ def run() -> int:
             action = menu.handle_key(_read_key())
             if action == "quit":
                 return 0
+            if action == "help":
+                sys.stdout.write("\033[2J\033[H" + render_help_screen()); sys.stdout.flush(); _read_key(); status = "Choose an option to begin."; continue
             if action == "create":
                 from ascii_neural_net.builder import run_builder
 

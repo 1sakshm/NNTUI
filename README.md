@@ -62,6 +62,18 @@ Use arrows to draw, `P` to predict, `C` to clear, and `S` to save `digit.txt`.
 
 `ascii_neural_net.explainability.explain_prediction()` reports confidence, input saliency, and the most active hidden neurons for an inference.
 
+## Phase 10: save and load models
+
+Use `save_model(network, "model.ann", metadata={"dataset": "xor"})` and `load_model("model.ann")`. Predict from a saved model with:
+
+```powershell
+py -3.12 -m ascii_neural_net.model_cli model.ann 0 1
+```
+
+## Phase 11: polish
+
+The terminal menu now includes a help screen and persistent settings support through `.ascii_nn_settings.json`.
+
 ## Test
 
 ```powershell
