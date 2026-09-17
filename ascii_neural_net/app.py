@@ -157,13 +157,19 @@ def run() -> int:
                 run_builder()
                 status = "Choose an option to begin."
                 continue
+            if action == "train":
+                from ascii_neural_net.training import run_training_dashboard
+
+                run_training_dashboard()
+                status = "Choose an option to begin."
+                continue
             if action == "load":
                 from ascii_neural_net.dataset_browser import run_dataset_browser
 
                 run_dataset_browser()
                 status = "Choose an option to begin."
                 continue
-            if action in {"train", "visualize"}:
+            if action == "visualize":
                 _show_action_screen(action)
                 status = "Choose an option to begin."
                 continue

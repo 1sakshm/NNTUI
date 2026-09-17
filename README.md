@@ -38,6 +38,10 @@ Choose `Load Dataset` to explore XOR, AND, OR, linear, circle, and spiral datase
 py -3.12 -m ascii_neural_net.dataset_demo path\to\data.csv
 ```
 
+## Phase 6: training dashboard
+
+Choose `Train Network` from the main menu to watch XOR train. The dashboard redraws loss, accuracy, learning rate, and live network activations throughout training.
+
 ## Test
 
 ```powershell
