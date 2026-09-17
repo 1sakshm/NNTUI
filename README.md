@@ -42,6 +42,14 @@ py -3.12 -m ascii_neural_net.dataset_demo path\to\data.csv
 
 Choose `Train Network` from the main menu to watch XOR train. The dashboard redraws loss, accuracy, learning rate, and live network activations throughout training.
 
+## Phase 7: MNIST
+
+Download MNIST and train a `784 → 32 → 10` network from scratch:
+
+```powershell
+py -3.12 -m ascii_neural_net.mnist_demo --download --limit 500 --epochs 3
+```
+
 ## Test
 
 ```powershell
