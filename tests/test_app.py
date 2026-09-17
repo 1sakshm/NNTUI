@@ -66,6 +66,12 @@ class PhaseIntegrationTests(unittest.TestCase):
         self.assertIn("NETWORK BUILDER", screen)
         self.assertIn("[T] Train XOR", screen)
 
+    def test_load_dataset_menu_action_renders_the_dataset_browser(self):
+        screen = render_action_screen("load", color=False)
+
+        self.assertIn("DATASET BROWSER", screen)
+        self.assertIn("CIRCLES", screen)
+
     def test_train_menu_action_runs_the_xor_training_workflow(self):
         screen = render_action_screen("train", color=False)
 

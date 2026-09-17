@@ -126,6 +126,10 @@ def render_action_screen(action: str, color: bool) -> str:
         from ascii_neural_net.visual_demo import visualize_xor_input
 
         return visualize_xor_input([0.0, 1.0], color=color)
+    if action == "load":
+        from ascii_neural_net.dataset_browser import render_dataset_browser
+
+        return render_dataset_browser()
     raise ValueError(f"No completed screen exists for action: {action}")
 
 
@@ -151,6 +155,12 @@ def run() -> int:
                 from ascii_neural_net.builder import run_builder
 
                 run_builder()
+                status = "Choose an option to begin."
+                continue
+            if action == "load":
+                from ascii_neural_net.dataset_browser import run_dataset_browser
+
+                run_dataset_browser()
                 status = "Choose an option to begin."
                 continue
             if action in {"train", "visualize"}:

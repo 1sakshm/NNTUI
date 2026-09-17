@@ -30,6 +30,14 @@ The renderer displays live activations for each input, hidden, and output node. 
 
 Choose `Create Network` from the main menu to open the builder. Use the arrow keys to select a layer and change its neuron count, add or delete hidden layers, cycle activations, choose the learning rate and initializer, randomize weights, then press `T` to train an XOR-compatible network.
 
+## Phase 5: datasets
+
+Choose `Load Dataset` to explore XOR, AND, OR, linear, circle, and spiral datasets as ASCII scatter plots. Load a CSV, map its label column, create a train/test split, normalize its features, and inspect it with:
+
+```powershell
+py -3.12 -m ascii_neural_net.dataset_demo path\to\data.csv
+```
+
 ## Test
 
 ```powershell
