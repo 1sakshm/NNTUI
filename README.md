@@ -58,6 +58,10 @@ py -3.12 -m ascii_neural_net.draw_demo --data data/mnist
 
 Use arrows to draw, `P` to predict, `C` to clear, and `S` to save `digit.txt`.
 
+## Phase 9: explainability
+
+`ascii_neural_net.explainability.explain_prediction()` reports confidence, input saliency, and the most active hidden neurons for an inference.
+
 ## Test
 
 ```powershell
